@@ -7,9 +7,9 @@ Database: bw1-hs2020-data_step_analysis
 ### Get iPhone LivingData - Steps
 
 ```
-select l.pid, source, unit, value, startdate AS startDate, 
-endtime AS endDate from dbo.livingdata as l
+select l.pid, source, unit, value, startdate AS startDate, endtime AS endDate, t.name from dbo.livingdata as l
 join dbo.participants as p on p.pid=l.pid
+join dbo.type as t on t.id=l.typeid
 where p.fulltime = '0' and l.typeid = '1' order by l.pid, l.startdate;
 ```
 
