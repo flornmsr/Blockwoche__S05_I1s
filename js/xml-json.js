@@ -9,8 +9,7 @@ var stepSum = 0;
 
 var availableUsers = [
   "5417a0f4-e6d2-4480-9d87-9edb58134675",
-  "8634f0f5-a77b-44c1-9273-c725c69bc842",
-  "70ffdbef-5bbd-4921-97ec-c6960b6fb05e"
+  "8634f0f5-a77b-44c1-9273-c725c69bc842"
 ]
 
 
@@ -62,6 +61,8 @@ function myFunction(xml) {
 
   }
 
+  console.log(jsonarray);
+
 
 
   //Loop over all entries, create entry for each minute
@@ -85,6 +86,8 @@ function myFunction(xml) {
       }
     }
   }
+
+  console.log(byMinutes);
 
   //Filter
   var givenDate = new Date(getDate());
