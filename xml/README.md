@@ -4,7 +4,7 @@
 Server: bw1-sql-hs2020.database.windows.net
 Database: bw1-hs2020-data_step_analysis
 
-### Get iPhone LivingData - Steps
+### Get iPhone / Android LivingData - Steps
 
 ```
 select l.pid, l.source, l.unit, l.value, l.startdate AS startDate, l.endtime AS endDate, t.name from dbo.livingdata as l
