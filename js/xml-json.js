@@ -7,7 +7,28 @@ var allDates = false;
 
 var stepSum = 0;
 
+var availableUsers = [
+  "0f4e5e49-bfaa-4394-843d-9bb3cf6ed480",
+  "5417a0f4-e6d2-4480-9d87-9edb58134675",
+  "8634f0f5-a77b-44c1-9273-c725c69bc842",
+  "b7291015-75ec-4c43-9db6-2cde9df73001",
+  "db27309d-c398-49a2-ad3e-9695921da3a3",
+  "ea5d35ca-7afa-4f07-b91d-f3dd0c73dcd1"
+]
+
+
+
 function loadXMLDoc() {
+  userSelect = document.getElementById('user');
+  availableUsers.forEach((userUuid, index) => {
+    userSelect.options[userSelect.options.length] = new Option(`User ${index+1}`, userUuid);
+  })
+  daySelect = document.getElementById('dates');
+  relevantDates.forEach((date, index) => {
+    daySelect.options[daySelect.options.length] = new Option(date.toLocaleDateString(), date);
+  })
+
+
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
@@ -16,24 +37,26 @@ function loadXMLDoc() {
   };
   xmlhttp.open("GET", `http://localhost/Blockwoche/xml/${getUser()}.xml`, true);
   xmlhttp.send();
-  d3.select("p").style("color", "green");
 
 }
 
 function myFunction(xml) {
   var element, i, xmlDoc, txt;
   xmlDoc = xml.responseXML;
-  element = xmlDoc.getElementsByTagName("Record");
+  element = xmlDoc.getElementsByTagName("Record")
 
   // XML to Json
   var jsonarray = [];
-  for (i = 13000; i < element.length; i++) {
-    if (element[i].getAttribute("type") == "HKQuantityTypeIdentifierStepCount") {
+  for (i = 0; i < element.length; i++) {
+    if (element[i].getElementsByTagName("unit")[0].innerHTML == "count") {
       var json = {
-        startDate: new Date(element[i].getAttribute("startDate")),
-        endDate: new Date(element[i].getAttribute("endDate")),
-        value: element[i].getAttribute("value")
+        startDate: new Date(element[i].getElementsByTagName("startDate")[0].innerHTML),
+        endDate: new Date(element[i].getElementsByTagName("endDate")[0].innerHTML),
+        value: element[i].getElementsByTagName("value")[0].innerHTML
       }
+      json.startDate = new Date(json.startDate.getTime() + 7200000);
+      json.endDate = new Date(json.endDate.getTime() + 7200000);
+
       jsonarray.push(json)
     }
 
@@ -60,7 +83,6 @@ function myFunction(xml) {
         }
       }
     }
-
   }
 
   //Filter
@@ -98,7 +120,7 @@ function getFilteredData(givenDate) {
   return filterdData;
 }
 
-function sumSteps(){
+function sumSteps() {
   data.forEach(element => {
     stepSum = stepSum + element.stepPerMin;
   });
@@ -125,7 +147,7 @@ function getDate() {
   var url = new URL(url_string);
   date = url.searchParams.get("date");
   document.getElementById("dates").value = date
-  if(date == "all"){
+  if (date == "all") {
     allDates = true;
     return "2020-09-18";
   }
@@ -135,9 +157,9 @@ function getDate() {
 function getUser() {
   var url_string = window.location.href
   var url = new URL(url_string);
-  uuid=url.searchParams.get("user");
+  uuid = url.searchParams.get("user");
   document.getElementById("user").value = uuid
-  if(uuid == ""){
+  if (uuid == "") {
     uuid = "8634f0f5-a77b-44c1-9273-c725c69bc842"
   }
   return uuid

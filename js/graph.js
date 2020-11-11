@@ -5,6 +5,8 @@ new Date("2020-10-23"), new Date("2020-10-30"),
     // new Date("2020-11-06")
 ]
 
+
+
 function loadGraph() {
     var margin = { top: 20, right: 20, bottom: 100, left: 50 },
         width = 1200 - margin.left - margin.right,
