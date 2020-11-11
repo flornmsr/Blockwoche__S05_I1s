@@ -3,60 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Today's Date</title>
+    <title>Blockwoche - S05_I1s</title>
     <script src="js/xml-json.js"></script>
     <script src="js/graph.js"></script>
-    
+
     <!-- <script src="https://d3js.org/d3.v6.min.js"></script> -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+        integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+        crossorigin="anonymous"></script>
     <!-- <script src= 
         "https://d3js.org/d3.v4.min.js"> 
     </script>  -->
 </head>
 
-<style> /* set the CSS */
-    html{
+<style>
+    /* set the CSS */
+    html {
         font-family: Arial, Helvetica, sans-serif;
+        margin: 2em;
     }
 
-    .axis { font: 14px sans-serif; }
-    
-    .line {
-      fill: none;
-      stroke: steelblue;
-      stroke-width: 2px;
+    .axis {
+        font: 14px sans-serif;
     }
-    
-    </style>
-    
+
+    .line {
+        fill: none;
+        stroke: steelblue;
+        stroke-width: 2px;
+    }
+
+    .line2 {
+        fill: none;
+        stroke-width: 2px;
+    }
+</style>
+
 <html>
 
 <body onload="loadXMLDoc()">
-    <select name="user" id="user" onchange="changeUser()">
-        <option value="8634f0f5-a77b-44c1-9273-c725c69bc842">
-            User 1
-        </option>
-    </select>
-    <select name="dates" id="dates" onchange="load()">
-        <option value="2020-09-18">18. 09</option>
-        <option value="2020-09-25">25. 09</option>
-        <option value="2020-10-02">02. 10</option>
-        <option value="2020-10-09">09. 10</option>
-        <option value="2020-10-16">16. 10</option>
-        <option value="2020-10-23">23. 10</option>
-        <option value="2020-10-30">30. 10</option>
-        <option value="2020-11-06">06. 11</option>
-    </select>
-    <div class="canvas"></div>
-    <h2>Anzahl Schritte: <span id="steps"></span></h2>
-    <h3>Für welche <span id="WalkLength"></span> benötigt wurden.</h3>
-    <h3><span id="EatLength"></span></h3>
-    <h2>Profil: <span id="typ"></span></h2>
-    <h2>Pünktlich: <span id="Punctuality"></span></h2>
-    
-    <script>
-    
-        
-    </script>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="col-12">Filter</h5>
+                <select name="user" id="user" class="custom-select col-6 m-1" onchange="load()">
+                    <option value="8634f0f5-a77b-44c1-9273-c725c69bc842">
+                        User 1
+                    </option>
+                </select>
+                <select name="dates" id="dates" class="custom-select col-6 m-1" onchange="load()">
+                    <option value="all">Alle Tage</option>
+                    <option value="2020-09-18">18. 09</option>
+                    <option value="2020-09-25">25. 09</option>
+                    <option value="2020-10-02">02. 10</option>
+                    <option value="2020-10-09">09. 10</option>
+                    <option value="2020-10-16">16. 10</option>
+                    <option value="2020-10-23">23. 10</option>
+                    <option value="2020-10-30">30. 10</option>
+                    <option value="2020-11-06">06. 11</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="card">
+            <div class="card-body">
+                <div class="canvas"></div>
+                <h5>Anzahl Schritte: <span id="steps"></span></h5>
+                <h2>Anzahl Schritte: <span id="steps"></span></h2>
+                <h3>Für welche <span id="WalkLength"></span> benötigt wurden.</h3>
+                <h3><span id="EatLength"></span></h3>
+                <h2>Profil: <span id="typ"></span></h2>
+                <h2>Pünktlich: <span id="Punctuality"></span></h2>
+            </div>
+        </div>
+    </div>
+
 
 </body>
