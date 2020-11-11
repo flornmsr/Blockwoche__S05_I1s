@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Today's Date</title>
+    <script src="xml-json.js"></script>
+    <script src="graph.js"></script>
+    
+    <!-- <script src="https://d3js.org/d3.v6.min.js"></script> -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- <script src= 
+        "https://d3js.org/d3.v4.min.js"> 
+    </script>  -->
+</head>
+
+<style> /* set the CSS */
+    html{
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .axis { font: 14px sans-serif; }
+    
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 2px;
+    }
+    
+    </style>
+    
+<html>
+
+<body onload="loadXMLDoc()">
+    <select name="user" id="user" onchange="changeUser()">
+        <option value="8634f0f5-a77b-44c1-9273-c725c69bc842">
+            User 1
+        </option>
+    </select>
+    <select name="dates" id="dates" onchange="load()">
+        <option value="2020-09-18">18. 09</option>
+        <option value="2020-09-25">25. 09</option>
+        <option value="2020-10-02">02. 10</option>
+        <option value="2020-10-09">09. 10</option>
+        <option value="2020-10-16">16. 10</option>
+        <option value="2020-10-23">23. 10</option>
+        <option value="2020-10-30">30. 10</option>
+        <option value="2020-11-06">06. 11</option>
+    </select>
+    <div class="canvas"></div>
+    <h2>Anzahl Schritte: <span id="steps"></span></h2>
+    <script>
+    
+        
+    </script>
+
+</body>
