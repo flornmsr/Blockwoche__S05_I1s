@@ -1,14 +1,21 @@
+var relevantDates = [new Date("2020-09-18"),
+new Date("2020-09-25"), new Date("2020-10-02"),
+new Date("2020-10-09"), new Date("2020-10-16"),
+new Date("2020-10-23"), new Date("2020-10-30"),
+    // new Date("2020-11-06")
+]
+
 function loadGraph() {
     var margin = { top: 20, right: 20, bottom: 100, left: 50 },
-        width = 960 - margin.left - margin.right,
+        width = 1200 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
 
     // parse the date / time
-    var parseTime = d3.timeParse("%d-%b-%y");
+    // var parseTime = d3.timeParse("%d-%b-%y");
 
     // set the ranges
-    var x = d3.scaleTime().range([0, width]);
+    var x = d3.scaleTime().range([0, width-200]);
     var y = d3.scaleLinear().range([height, 0]);
 
     var valueline = d3.line()
@@ -18,16 +25,16 @@ function loadGraph() {
     // append the svg obgect to the body of the page
     // appends a 'group' element to 'svg'
     // moves the 'group' element to the top left margin
-    var svg = d3.select("body").append("svg")
+    var svg = d3.select("body").select(".canvas").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
-    d3.json("test.json", dataa => {
+    d3.json("xml/test.json", dataa => {
         data.forEach(function (d) {
-            d.date = new Date(d.date);
+            d.date = setSameDate(new Date(d.date))
             d.stepPerMin = +d.stepPerMin;
 
         });
@@ -39,7 +46,8 @@ function loadGraph() {
         // Add the valueline path.
         svg.append("path")
             .data([data])
-            .attr("class", "line")
+            .attr("class", "line2")
+            .attr("stroke", function (d) { return getColor(0) })
             .attr("d", valueline);
 
         // Add the X Axis
@@ -58,6 +66,54 @@ function loadGraph() {
         svg.append("g")
             .attr("class", "axis")
             .call(d3.axisLeft(y));
+        
+        if(allDates){
+            stepSum = 0;
+            relevantDates.forEach((element, index) => {
+                filteredData = getFilteredData(element);
+                filteredData.forEach(d => {
+                    stepSum = stepSum + d.stepPerMin;
+                    d.date = setSameDate(new Date(d.date));
+                    d.stepPerMin = +d.stepPerMin;
+                })
+                svg.append("path")
+                    .data([filteredData])
+                    .attr("class", "line2")
+                    .attr("stroke", function (d) { return getColor(index) })
+                    .attr("d", valueline)
+
+                
+            });
+            document.getElementById("steps").innerHTML = "∅" + Math.floor(stepSum/relevantDates.length)
+    
+            var lineLegend = svg.selectAll(".lineLegend").data(relevantDates)
+                .enter().append("g")
+                .attr("class", "lineLegend")
+                .attr("transform", function (d, i) {
+                    position = width - margin.right - 180
+                    return "translate(" + position + "," + (i * 20) + ")";
+                });
+            lineLegend.append("text").text(function (d) { return `${d.toDateString()}`; })
+                .attr("transform", "translate(15,9)"); //align texts with boxes
+            lineLegend.append("rect")
+                .attr("fill", function (d, i) { return getColor(relevantDates.indexOf(d)); })
+                .attr("width", 10).attr("height", 10);
+        }
+        
+
 
     })
+
+}
+
+function setSameDate(date) {
+    date = new Date(date.setFullYear(1998));
+    date = new Date(date.setMonth(12));
+    date = new Date(date.setDate(17));
+    return date
+}
+
+function getColor(index) {
+    colors = ["#CF4232", "#FAC023", "#068675", "#3EB2F0", "#5057BF", "#FFAAE4", "#402300"]
+    return colors[index%7]
 }

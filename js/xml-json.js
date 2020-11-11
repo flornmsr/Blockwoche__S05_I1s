@@ -3,6 +3,10 @@ var data = [];
 
 var svg, graph, gXAxis, gYAxis
 
+var allDates = false;
+
+var stepSum = 0;
+
 function loadXMLDoc() {
   var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = function () {
@@ -79,12 +83,26 @@ function myFunction(xml) {
 
 }
 
-function sumSteps(){
-  var sum = 0;
-  data.forEach(element => {
-    sum = sum + element.stepPerMin;
+function getFilteredData(givenDate) {
+  var filterdData = byMinutes.filter(val => {
+    var date = new Date(val.date)
+
+    if (givenDate.getDate() == date.getDate()
+      && givenDate.getMonth() == date.getMonth()
+      && givenDate.getFullYear() == date.getFullYear()
+      && date.getHours() >= 11 && date.getHours() < 13) {
+      return true
+    }
+    return false
   });
-  document.getElementById("steps").innerText = Math.floor(sum);
+  return filterdData;
+}
+
+function sumSteps(){
+  data.forEach(element => {
+    stepSum = stepSum + element.stepPerMin;
+  });
+  document.getElementById("steps").innerText = Math.floor(stepSum);
 }
 
 function load() {
@@ -105,7 +123,12 @@ function load() {
 function getDate() {
   var url_string = window.location.href
   var url = new URL(url_string);
-  document.getElementById("dates").value = url.searchParams.get("date");
+  date = url.searchParams.get("date");
+  document.getElementById("dates").value = date
+  if(date == "all"){
+    allDates = true;
+    return "2020-09-18";
+  }
   return url.searchParams.get("date");
 }
 
