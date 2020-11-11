@@ -21,7 +21,7 @@ do
   echo "<HealthData locale=\"en_CH\">" >> $participant.xml
   #fetch data from main export file and filter out the values for
   #the corresponding <pid>
-  xmllint --xpath '/data' data_all_iphones.xml | grep -A 7 -B 1 "<pid>$participant</pid>" >> $participant.xml
+  xmllint --xpath '/data' $file | grep -A 7 -B 1 "<pid>$participant</pid>" >> $participant.xml
   #create backup file, replace row with Record and remove line seperators
   #from previous grep statement
   sed -i.bck -e s/row/Record/g -e s/--//g $participant.xml
