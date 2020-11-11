@@ -37,6 +37,7 @@ function loadGraph() {
     d3.json("xml/test.json", dataa => {
         data.forEach(function (d) {
             d.date = setSameDate(new Date(d.date))
+            // d.date = new Date(d.date)
             d.stepPerMin = +d.stepPerMin;
 
         });

@@ -8,12 +8,9 @@ var allDates = false;
 var stepSum = 0;
 
 var availableUsers = [
-  "0f4e5e49-bfaa-4394-843d-9bb3cf6ed480",
   "5417a0f4-e6d2-4480-9d87-9edb58134675",
   "8634f0f5-a77b-44c1-9273-c725c69bc842",
-  "b7291015-75ec-4c43-9db6-2cde9df73001",
-  "db27309d-c398-49a2-ad3e-9695921da3a3",
-  "ea5d35ca-7afa-4f07-b91d-f3dd0c73dcd1"
+  "70ffdbef-5bbd-4921-97ec-c6960b6fb05e"
 ]
 
 
@@ -21,7 +18,7 @@ var availableUsers = [
 function loadXMLDoc() {
   userSelect = document.getElementById('user');
   availableUsers.forEach((userUuid, index) => {
-    userSelect.options[userSelect.options.length] = new Option(`User ${index+1}`, userUuid);
+    userSelect.options[userSelect.options.length] = new Option(`User ${index + 1}`, userUuid);
   })
   daySelect = document.getElementById('dates');
   relevantDates.forEach((date, index) => {
@@ -54,13 +51,17 @@ function myFunction(xml) {
         endDate: new Date(element[i].getElementsByTagName("endDate")[0].innerHTML),
         value: element[i].getElementsByTagName("value")[0].innerHTML
       }
-      json.startDate = new Date(json.startDate.getTime() + 0);
-      json.endDate = new Date(json.endDate.getTime() + 0);
+      if (getUser() == "8634f0f5-a77b-44c1-9273-c725c69bc842") {
+        json.startDate = new Date(json.startDate.getTime() + 7200000);
+        json.endDate = new Date(json.endDate.getTime() + 7200000);
+      }
+
 
       jsonarray.push(json)
     }
 
   }
+
 
 
   //Loop over all entries, create entry for each minute
@@ -88,10 +89,11 @@ function myFunction(xml) {
   //Filter
   var givenDate = new Date(getDate());
   data = getFilteredData(givenDate);
+  console.log(data);
 
   sumSteps();
 
-  // detectphases();
+  detectphases();
 
   detectTyp();
 
@@ -130,8 +132,8 @@ function detectphases() {
   var n = 0; //Length of this intervall restPhase
   var g = 0; //Complet length of walkPhase
   for (let i = 0; i < data.length; i++) {
-    if (i < data.length && data[i].stepPerMin > 15) {
-      while (data[i].stepPerMin > 15) {
+    if (data[i].stepPerMin > 15) {
+      while (i < data.length && data[i].stepPerMin > 15) {
         i++;
         j++; //length walkPhase
         g++;
