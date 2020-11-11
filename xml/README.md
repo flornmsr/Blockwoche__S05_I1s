@@ -14,11 +14,13 @@ where p.fulltime = '0' and l.typeid = '1' order by l.pid, l.startdate;
 Azure Data Studio -> Export as XML
 
 ## bash script
-chmod a+x xml_create.sh
+
+```chmod a+x xml_create.sh
 ./xml_create.sh <xml_export_file>
+```
 
 ## Upload <pid>.xml files
-git add <pid>.xml
+```git add <pid>.xml
 git commit -m "add new xml file/s"
 git push 
-
+```
