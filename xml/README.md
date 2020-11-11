@@ -5,7 +5,8 @@ Server: bw1-sql-hs2020.database.windows.net
 Database: bw1-hs2020-data_step_analysis
 
 ### Get iPhone LivingData - Steps
-```select l.pid, source, unit, value, startdate AS startDate, endtime AS endDate from dbo.livingdata as l
+```select l.pid, source, unit, value, startdate AS startDate, 
+endtime AS endDate from dbo.livingdata as l
 join dbo.participants as p on p.pid=l.pid
 where p.fulltime = '0' and l.typeid = '1' order by l.pid, l.startdate;
 ```
