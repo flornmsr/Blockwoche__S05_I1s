@@ -10,7 +10,7 @@ function loadXMLDoc() {
       myFunction(this);
     }
   };
-  xmlhttp.open("GET", `http://localhost/Blockwoche/${getUser()}.xml`, true);
+  xmlhttp.open("GET", `http://localhost/Blockwoche/xml/${getUser()}.xml`, true);
   xmlhttp.send();
   d3.select("p").style("color", "green");
 
@@ -59,6 +59,7 @@ function myFunction(xml) {
 
   }
 
+  //Filter
   var givenDate = new Date(getDate());
   data = byMinutes.filter(val => {
     var date = new Date(val.date)
@@ -72,14 +73,18 @@ function myFunction(xml) {
     return false
   })
 
+  sumSteps();
+
+  loadGraph();
+
+}
+
+function sumSteps(){
   var sum = 0;
   data.forEach(element => {
     sum = sum + element.stepPerMin;
   });
-  document.getElementById("steps").innerText = sum
-
-  loadGraph();
-
+  document.getElementById("steps").innerText = Math.floor(sum);
 }
 
 function load() {
