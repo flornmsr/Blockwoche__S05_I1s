@@ -54,8 +54,8 @@ function myFunction(xml) {
         endDate: new Date(element[i].getElementsByTagName("endDate")[0].innerHTML),
         value: element[i].getElementsByTagName("value")[0].innerHTML
       }
-      json.startDate = new Date(json.startDate.getTime() + 7200000);
-      json.endDate = new Date(json.endDate.getTime() + 7200000);
+      json.startDate = new Date(json.startDate.getTime() + 0);
+      json.endDate = new Date(json.endDate.getTime() + 0);
 
       jsonarray.push(json)
     }
@@ -87,21 +87,11 @@ function myFunction(xml) {
 
   //Filter
   var givenDate = new Date(getDate());
-  data = byMinutes.filter(val => {
-    var date = new Date(val.date)
-
-    if (givenDate.getDate() == date.getDate()
-      && givenDate.getMonth() == date.getMonth()
-      && givenDate.getFullYear() == date.getFullYear()
-      && ((date.getHours() >= 11 && date.getMinutes() >= 30) || date.getHours() >= 12) && date.getHours() < 13) {
-      return true
-    }
-    return false
-  })
+  data = getFilteredData(givenDate);
 
   sumSteps();
 
-  detectphases();
+  // detectphases();
 
   detectTyp();
 
@@ -118,7 +108,7 @@ function getFilteredData(givenDate) {
     if (givenDate.getDate() == date.getDate()
       && givenDate.getMonth() == date.getMonth()
       && givenDate.getFullYear() == date.getFullYear()
-      && date.getHours() >= 11 && date.getHours() < 13) {
+      && ((date.getHours() >= 11 && date.getMinutes() >= 30) || date.getHours() >= 12) && date.getHours() < 13) {
       return true
     }
     return false
