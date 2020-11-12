@@ -33,7 +33,7 @@ function loadXMLDoc() {
       myFunction(this);
     }
   };
-  xmlhttp.open("GET", `http://localhost/Blockwoche/xml/${getUser()}.xml`, true);
+  xmlhttp.open("GET", `./xml/${getUser()}.xml`, true);
   xmlhttp.send();
 
 }
