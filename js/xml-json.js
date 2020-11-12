@@ -173,10 +173,10 @@ function detectTyp() {
     document.getElementById("typ").innerText = " Im Restaurant gegessen";
     document.getElementById("EatLength").innerText = " Es wurde " + restPhase2 + " Minuten lang gegessen.";
   }
-  else if ((restPhase == 4 || restPhase == 3) && (walkPhase == 3 || walkPhase == 4)) { //1 before break, 1 at store, 1 at a diffrent place, 1 after break
+  else if ((restPhase == 4 || restPhase == 2) && (walkPhase == 1 || walkPhase == 3)) { //1 before break, 1 at store, 1 at a diffrent place, 1 after break
     document.getElementById("typ").innerText = " Mit Take-Away verpflegt";
-    if (restPhase == 3) {
-      document.getElementById("EatLength").innerText = "Es wurde " + restPhase3 + " Minuten lang gegessen und unter 2 Minuten auf das Essen gewartet.";
+    if (restPhase == 2) {
+      document.getElementById("EatLength").innerText = "Es wurde unter 2 Minuten auf das Essen gewartet anschliessend zurück gelaufen und das Essen in der Schule eingenommen.";
     } else {
       document.getElementById("EatLength").innerText = " Es wurde " + restPhase3 + " Minuten gegessen lang und " + restPhase2 + " Minuten auf das Essen gewartet.";
     }
