@@ -59,14 +59,6 @@
                 </select>
                 <select name="dates" id="dates" class="custom-select col-6 m-1" onchange="load()">
                     <option value="all">Alle Tage</option>
-                    <!-- <option value="2020-09-18">18. 09</option>
-                    <option value="2020-09-25">25. 09</option>
-                    <option value="2020-10-02">02. 10</option>
-                    <option value="2020-10-09">09. 10</option>
-                    <option value="2020-10-16">16. 10</option>
-                    <option value="2020-10-23">23. 10</option>
-                    <option value="2020-10-30">30. 10</option>
-                    <option value="2020-11-06">06. 11</option> -->
                 </select>
             </div>
         </div>
@@ -75,13 +67,13 @@
             <div class="card-body">
                 <div class="canvas"></div>
                 <h5>Anzahl Schritte: <span id="steps"></span></h5>
-                <h5>Für welche <span id="WalkLength"></span> benötigt wurden.</h5>
-                <h5><span id="EatLength"></span></h5>
-                <h5>Profil: <span id="typ"></span></h5>
-                <h5>Pünktlich: <span id="Punctuality"></span></h5>
+                <div id="detailInfo">
+                    <h5>Für welche <span id="WalkLength"></span> benötigt wurden.</h5>
+                    <h5><span id="EatLength"></span></h5>
+                    <h5>Profil: <span id="typ"></span></h5>
+                    <h5>Pünktlich: <span id="Punctuality"></span></h5>
+                </div>
             </div>
         </div>
     </div>
-
-
 </body>

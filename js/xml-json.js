@@ -1,7 +1,7 @@
 var byMinutes = [];
 var data = [];
 
-var svg, graph, gXAxis, gYAxis, walkPhase, restPhase, sum, restPhase2, restPhase3 = 0
+var svg, graph, gXAxis, gYAxis, walkPhase, restPhase, restPhase2, restPhase3 = 0
 
 var allDates = false;
 
@@ -9,7 +9,9 @@ var stepSum = 0;
 
 var availableUsers = [
   "5417a0f4-e6d2-4480-9d87-9edb58134675",
-  "8634f0f5-a77b-44c1-9273-c725c69bc842"
+  "8634f0f5-a77b-44c1-9273-c725c69bc842",
+  "0f4e5e49-bfaa-4394-843d-9bb3cf6ed480",
+  "74edde01-c694-402d-942f-80f6573c4519"
 ]
 
 
@@ -61,9 +63,6 @@ function myFunction(xml) {
 
   }
 
-  console.log(jsonarray);
-
-
 
   //Loop over all entries, create entry for each minute
   for (i = 1; i <= jsonarray.length; i++) {
@@ -87,7 +86,6 @@ function myFunction(xml) {
     }
   }
 
-  console.log(byMinutes);
 
   //Filter
   var givenDate = new Date(getDate());
@@ -167,7 +165,7 @@ function detectphases() {
 }
 
 function detectTyp() {
-  if (sum <= 500) {
+  if (stepSum <= 500) {
     document.getElementById("typ").innerText = " Vor Ort gegessen";
     document.getElementById("EatLength").innerText = "";
   }

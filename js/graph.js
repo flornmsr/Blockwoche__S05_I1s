@@ -5,6 +5,8 @@ new Date("2020-10-23"), new Date("2020-10-30"),
     // new Date("2020-11-06")
 ]
 
+var maxValue = 0;
+var filteredData;
 
 
 function loadGraph() {
@@ -17,7 +19,7 @@ function loadGraph() {
     // var parseTime = d3.timeParse("%d-%b-%y");
 
     // set the ranges
-    var x = d3.scaleTime().range([0, width-200]);
+    var x = d3.scaleTime().range([0, width - 250]);
     var y = d3.scaleLinear().range([height, 0]);
 
     var valueline = d3.line()
@@ -44,7 +46,21 @@ function loadGraph() {
 
         // Scale the range of the data
         x.domain(d3.extent(data, function (d) { return d.date; }));
-        y.domain([0, d3.max(data, function (d) { return d.stepPerMin; })]);
+        if(!allDates){
+            y.domain([0, d3.max(data, function (d) { return d.stepPerMin; })]);
+        }else {
+            relevantDates.forEach( date => {
+                filteredData = getFilteredData(date);
+                filteredData.forEach( value => {
+                    filteredData.forEach(d => {
+                        if (maxValue < value.stepPerMin) {
+                            maxValue = value.stepPerMin;
+                        }
+                    })
+                })
+            })
+            y.domain([0, maxValue])
+        }
 
         // Add the valueline path.
         svg.append("path")
@@ -69,8 +85,15 @@ function loadGraph() {
         svg.append("g")
             .attr("class", "axis")
             .call(d3.axisLeft(y));
-        
-        if(allDates){
+
+        svg.append("text")
+            .attr("class", "y label")
+            .attr("text-anchor", "end")
+            .attr("dy", "-2.25em")
+            .attr("transform", "rotate(-90)")
+            .text("Schritte pro Minute");
+
+        if (allDates) {
             stepSum = 0;
             relevantDates.forEach((element, index) => {
                 filteredData = getFilteredData(element);
@@ -85,15 +108,17 @@ function loadGraph() {
                     .attr("stroke", function (d) { return getColor(index) })
                     .attr("d", valueline)
 
-                
+
             });
-            document.getElementById("steps").innerHTML = "∅" + Math.floor(stepSum/relevantDates.length)
-    
+            document.getElementById("steps").innerHTML = "∅" + Math.floor(stepSum / relevantDates.length);
+            document.getElementById("detailInfo").style.display = "none"
+
+
             var lineLegend = svg.selectAll(".lineLegend").data(relevantDates)
                 .enter().append("g")
                 .attr("class", "lineLegend")
                 .attr("transform", function (d, i) {
-                    position = width - margin.right - 180
+                    position = width - margin.right - 220
                     return "translate(" + position + "," + (i * 20) + ")";
                 });
             lineLegend.append("text").text(function (d) { return `${d.toDateString()}`; })
@@ -102,7 +127,7 @@ function loadGraph() {
                 .attr("fill", function (d, i) { return getColor(relevantDates.indexOf(d)); })
                 .attr("width", 10).attr("height", 10);
         }
-        
+
 
 
     })
@@ -118,5 +143,5 @@ function setSameDate(date) {
 
 function getColor(index) {
     colors = ["#CF4232", "#FAC023", "#068675", "#3EB2F0", "#5057BF", "#FFAAE4", "#402300"]
-    return colors[index%7]
+    return colors[index % 7]
 }
