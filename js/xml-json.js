@@ -3,7 +3,8 @@ var data = [];
 
 var svg, graph, gXAxis, gYAxis, walkPhase, restPhase, restPhase2, restPhase3 = 0
 
-var allDates = false;
+// 0 = Specific Date, 1 = All in one Diagram, 2 = All in one sumed up
+var allDates = 0;
 
 var stepSum = 0;
 
@@ -90,7 +91,6 @@ function myFunction(xml) {
   //Filter
   var givenDate = new Date(getDate());
   data = getFilteredData(givenDate);
-  console.log(data);
 
   sumSteps();
 
@@ -107,7 +107,6 @@ function myFunction(xml) {
 function getFilteredData(givenDate) {
   var filterdData = byMinutes.filter(val => {
     var date = new Date(val.date)
-
     if (givenDate.getDate() == date.getDate()
       && givenDate.getMonth() == date.getMonth()
       && givenDate.getFullYear() == date.getFullYear()
@@ -229,7 +228,10 @@ function getDate() {
   date = url.searchParams.get("date");
   document.getElementById("dates").value = date
   if (date == "all") {
-    allDates = true;
+    allDates = 1;
+    return "2020-09-18";
+  } else if (date == "allSum") {
+    allDates = 2;
     return "2020-09-18";
   }
   return url.searchParams.get("date");

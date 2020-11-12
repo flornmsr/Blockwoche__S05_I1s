@@ -6,7 +6,7 @@ new Date("2020-10-23"), new Date("2020-10-30"),
 ]
 
 var maxValue = 0;
-var filteredData;
+// var filteredData;
 
 
 function loadGraph() {
@@ -39,27 +39,40 @@ function loadGraph() {
     d3.json("xml/test.json", dataa => {
         data.forEach(function (d) {
             d.date = setSameDate(new Date(d.date))
-            // d.date = new Date(d.date)
             d.stepPerMin = +d.stepPerMin;
 
         });
 
         // Scale the range of the data
         x.domain(d3.extent(data, function (d) { return d.date; }));
-        if(!allDates){
+        if (allDates == 0) {
             y.domain([0, d3.max(data, function (d) { return d.stepPerMin; })]);
-        }else {
-            relevantDates.forEach( date => {
+        } else if (allDates == 1) {
+            relevantDates.forEach(date => {
                 filteredData = getFilteredData(date);
-                filteredData.forEach( value => {
-                    filteredData.forEach(d => {
-                        if (maxValue < value.stepPerMin) {
-                            maxValue = value.stepPerMin;
-                        }
-                    })
+                filteredData.forEach(value => {
+                    if (maxValue < value.stepPerMin) {
+                        maxValue = value.stepPerMin;
+                    }
                 })
             })
             y.domain([0, maxValue])
+        } else if (allDates == 2) {
+            firstDate = data;
+            allExceptFirst = []
+            relevantDates.forEach( date =>{
+                if(date != relevantDates[0]){
+                    allExceptFirst.push(getFilteredData(date));
+                }
+            })
+            sumStepPerMin = 0
+            firstDate.forEach((element, index) => {
+                allExceptFirst.forEach(d => {
+                    sumStepPerMin = d[index].stepPerMin + sumStepPerMin;
+                })
+                element.stepPerMin = sumStepPerMin;
+            });
+            y.domain([0, firstDate[firstDate.length -1].stepPerMin]);
         }
 
         // Add the valueline path.
@@ -93,7 +106,7 @@ function loadGraph() {
             .attr("transform", "rotate(-90)")
             .text("Schritte pro Minute");
 
-        if (allDates) {
+        if (allDates == 1) {
             stepSum = 0;
             relevantDates.forEach((element, index) => {
                 filteredData = getFilteredData(element);
